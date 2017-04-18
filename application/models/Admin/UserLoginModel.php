@@ -4,7 +4,7 @@ class UserLoginModel extends CI_Model{
 	private $email;
 	private $password;
 	public function __construct(){
-		$this->load->library('session');
+		session_start();
 		$this->load->database('default');
 	}
 	public function init($inEmail, $inPassword){
@@ -20,18 +20,18 @@ class UserLoginModel extends CI_Model{
 	}
 	public function getUserInSession(){
 		$result = null;
-		if($this->session->has_userdata('adminUserLogin')){
-			$result = $this->session->userdata('adminUserLogin');
+		if(isset($_SESSION['adminUserLogin'])){
+			$result = $_SESSION['adminUserLogin'];
 		}
 		return $result;
 	}
 	public function checkUserIsLogined(){
-		return $this->session->has_userdata('adminUserLogin');
+		return isset($_SESSION['adminUserLogin']);
 	}
 	public function setAdminUserLoginSession($user){
-		$this->session->set_userdata('adminUserLogin', $user);
+		$_SESSION['adminUserLogin'] = $user;
 	}
 	public function clearUserLoginSession(){
-		$this->session->unset_userdata('adminUserLogin');
+		$_SESSION['adminUserLogin'] = null;
 	}
 }
